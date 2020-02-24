@@ -1,5 +1,3 @@
-import re
-import sys
 from string import Template
 
 def first_index(iterable, condition=lambda x: True):

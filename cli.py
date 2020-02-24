@@ -2,14 +2,14 @@ import argparse
 import pathlib
 import sys
 
-import standardize
+import brisingr
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument('files', nargs='*', default=sys.stdin)
     parser.add_argument('-i', '--in-place', action='store_true')
 
-    for option, help in standardize.OPTIONS.items():
+    for option, help in brisingr.OPTIONS.items():
         parser.add_argument(f'--{option}', action="store_true", help=help)
 
     args = parser.parse_args()
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     if args.files == sys.stdin:
         args.files = sys.stdin.read().splitlines()
 
-    modifications = [k for k, v in vars(args).items() if v and k in standardize.OPTIONS]
+    modifications = [k for k, v in vars(args).items() if v and k in brisingr.OPTIONS]
 
     if not modifications:
         print('Specify something to be done.')
@@ -31,7 +31,7 @@ if __name__ == "__main__":
             print(f'File does not exist: {path}')
             continue
 
-        result = standardize.update(path, modifications)
+        result = brisingr.update(path, modifications)
 
         if args.in_place:
             path.write_text(result)

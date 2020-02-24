@@ -3,7 +3,7 @@ from collections import namedtuple
 from pathlib import Path
 
 _modules = {}
-_Option = namedtuple('StandardizeModule', ['name', 'func', 'help'])
+_Option = namedtuple('BrisingrModule', ['name', 'func', 'help'])
 
 for file in (Path(__file__).parent/'plugins').glob('*.py'):
     if file.stem != '__init__':
