@@ -1,0 +1,6 @@
+// File: ${FILE} ${YEAR}
+//
+// My template header
+//
+// 
+// Copyright ${YEAR}
