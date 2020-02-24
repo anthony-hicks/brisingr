@@ -5,14 +5,22 @@ from pathlib import Path
 import utils
 
 def fix(lines, **kwargs):
+    token = utils.first_non_comment(lines)
     begin, end = utils.first_comment_block(lines)
-    template = (Path(__file__).parents[1]/'templates'/'header.txt').read_text()
+
+    exists = token > begin
 
     mappings = {
         'FILE': kwargs['filename'],
         'YEAR': '2020'
     }
-
+    
+    template = (Path(__file__).parents[1]/'templates'/'header.txt').read_text()
     header = string.Template(template).substitute(mappings).splitlines()
 
-    return lines[:begin] + header + lines[end:]
+    if not exists:
+        modified = header + lines
+    else:
+        modified = lines[:begin] + header + lines[end:]
+
+    return modified
