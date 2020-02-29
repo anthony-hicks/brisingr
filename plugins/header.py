@@ -2,8 +2,10 @@
 import string
 from pathlib import Path
 
-import utils
+import brisingr
+from plugins import utils
 
+@brisingr.action
 def fix(lines, **kwargs):
     token = utils.first_non_comment(lines)
     begin, end = utils.first_comment_block(lines)

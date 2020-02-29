@@ -2,8 +2,10 @@
 import sys
 from pathlib import Path
 
-import utils
+import brisingr
+from plugins import utils
 
+@brisingr.action
 def fix(lines, **kwargs):
     reverse = lines[::-1]  # [::-1] is more efficient than list(reversed())
 

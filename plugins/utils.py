@@ -1,5 +1,3 @@
-from string import Template
-
 def first_index(iterable, condition=lambda x: True):
     return next(i for i, element in enumerate(iterable) if condition(element))
 

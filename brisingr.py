@@ -3,13 +3,17 @@ from collections import namedtuple
 from pathlib import Path
 
 _modules = {}
+_registered = []
 _Module = namedtuple('Module', ['name', 'func', 'help'])
 _Plugins = namedtuple('Plugins', ['active', 'inactive'])
 
+def action(func):
+    _registered.append(func)
+    return func
 
 for file in (Path(__file__).parent/'plugins').glob('*.py'):
-    if file.stem != '__init__':
-        _module = importlib.import_module(f'plugins.{file.stem}')
+    _module = importlib.import_module(f'plugins.{file.stem}')
+    if hasattr(_module, 'fix') and getattr(_module, 'fix') in _registered:
         _modules[file.stem] = _Module(
             name=_module.__name__,
             func=getattr(_module, 'fix'),
@@ -31,8 +35,8 @@ class Brisingr:
     def parse_args(self):
         self.args = self.parser.parse_args()
 
-        active = [k for k in _modules if k in self.args]
-        inactive = [k for k in _modules if k not in self.args]
+        active = [k for k in _modules if getattr(self.args, k)]
+        inactive = [k for k in _modules if not getattr(self.args, k)]
 
         self.plugins = _Plugins(active=active, inactive=inactive)
 
